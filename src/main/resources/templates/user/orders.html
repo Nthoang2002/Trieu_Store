@@ -13,7 +13,7 @@
 <!-- Content container -->
 <section>
     <div class="container mt-5 p-5">
-        <form action="/user/save-order" method="post" id="orders" novalidate>
+        <form action="/user/success" method="post" id="orders" novalidate>
             <div class="row">
                 <div class="col-md-6">
                     <div class="mb-3 row">
@@ -108,7 +108,13 @@
                                     <option value="COD">Thanh toán khi nhận hàng</option>
                                     <option value="ONLINE">Thanh toán trực tuyến</option>
                                 </select>
-                                <a href="/payment/vn-pay" class="btn btn-primary">Thanh toán bằng VNPay</a>
+<!--                                <a th:href="@{/payment/vn-pay(amount=${totalOrderPrice}, bankCode='NCB')}"-->
+<!--                                   class="btn btn-primary mt-2">-->
+<!--                                    Thanh toán bằng VNPay-->
+<!--                                </a>-->
+                                <a href="#" class="btn btn-primary mt-2" onclick="redirectToVNPay(event)">Thanh toán bằng VNPay</a>
+
+
                             </div>
 
                             <button class="btn bg-primary text-white col-md-12">Đặt hàng</button>
@@ -140,5 +146,31 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous">
 </script>
+
+<!--// chuyển hướng đến paymentUrl-->
+<script>
+    function redirectToVNPay(event) {
+        event.preventDefault(); // Ngăn chặn mặc định
+
+        let amount = [[${totalOrderPrice}]];
+        let bankCode = "NCB"; // Giá trị mặc định, có thể thay đổi từ form
+
+        fetch(`/payment/vn-pay?amount=${amount}&bankCode=${bankCode}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.code === 200 && data.data && data.data.paymentUrl) {
+                    window.location.href = data.data.paymentUrl; // Điều hướng đến VNPay
+                } else {
+                    alert("Lỗi khi tạo thanh toán VNPay!");
+                }
+            })
+            .catch(error => {
+                console.error("Lỗi khi gọi API:", error);
+                alert("Có lỗi xảy ra!");
+            });
+    }
+</script>
+
+
 </body>
 </html>

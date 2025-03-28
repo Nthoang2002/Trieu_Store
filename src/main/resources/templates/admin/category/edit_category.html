@@ -24,7 +24,7 @@
                     </div>-->
                     <div class="card-body">
                         <form role="form" method="post" th:action="@{/admin/category/edit_category}" th:object="${edit_category}">
-                            <input type="hidden" class="form-control" id="productId" th:field="*{category_id}">
+                            <input type="hidden" class="form-control" id="productId" th:field="*{id}">
                             <div class="form-group">
                                 <label>Danh mục</label>
                                 <input type="text" class="form-control"  th:field="*{category_name}">
