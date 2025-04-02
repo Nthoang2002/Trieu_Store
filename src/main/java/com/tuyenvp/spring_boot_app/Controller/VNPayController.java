@@ -23,7 +23,7 @@ import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-@RestController
+@Controller
 @RequestMapping("/payment")
 @RequiredArgsConstructor
 public class VNPayController {
